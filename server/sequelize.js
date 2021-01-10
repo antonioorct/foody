@@ -15,6 +15,7 @@ try {
 const models = [
   require("./models/user.model"),
   require("./models/location.model"),
+  require("./models/restaurant.model"),
 ];
 
 models.forEach((model) => {
