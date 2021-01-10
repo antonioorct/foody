@@ -12,7 +12,10 @@ try {
   process.exit(1);
 }
 
-const models = [require("./models/user.model")];
+const models = [
+  require("./models/user.model"),
+  require("./models/location.model"),
+];
 
 models.forEach((model) => {
   model(sequelize);
