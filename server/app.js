@@ -14,7 +14,7 @@ router(app);
 
 try {
   app.listen(process.env.PORT);
-  console.log("Listening on port" + process.env.PORT);
+  console.log("Listening on port " + process.env.PORT);
 } catch (e) {
   console.log("Error starting server: ");
   console.log(e.message);
