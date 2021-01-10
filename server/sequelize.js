@@ -18,6 +18,7 @@ const models = [
   require("./models/restaurant.model"),
   require("./models/meal.model"),
   require("./models/order.model"),
+  require("./models/orderMeal.model"),
 ];
 
 models.forEach((model) => {
