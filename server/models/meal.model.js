@@ -14,6 +14,7 @@ module.exports = (sequelize) =>
       restaurantId: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        unsigned: true,
       },
       name: {
         type: DataTypes.STRING,

@@ -14,6 +14,7 @@ module.exports = (sequelize) =>
       userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        unsigned: true,
       },
       name: {
         type: DataTypes.STRING,
