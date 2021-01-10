@@ -24,3 +24,7 @@ export async function getLoggedInUser() {
   if (!token) return initialState;
   else return { ...jwtDecode(token), isAuthenticated: true };
 }
+
+export async function getJwtHeader() {
+  return { headers: localStorage.getItem("token") };
+}
