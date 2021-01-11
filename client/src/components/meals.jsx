@@ -16,7 +16,13 @@ export default function Meals() {
 
   return (
     <div>
-      <Link to={{ pathname: "/checkout", state: cart }}>
+      <Link
+        to={{
+          pathname: "/checkout",
+          state: cart,
+          restaurantId: routeParams.restaurantId,
+        }}
+      >
         <Button>Checkout</Button>
       </Link>
 
