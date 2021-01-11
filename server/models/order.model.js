@@ -16,6 +16,11 @@ module.exports = (sequelize) =>
         allowNull: false,
         unsigned: true,
       },
+      userLocationId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        unsigned: true,
+      },
       userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
