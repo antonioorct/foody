@@ -1,8 +1,8 @@
+require("dotenv").config();
 const express = require("express");
 const router = require("./routes/routes");
 const cors = require("cors");
 require("./sequelize");
-require("dotenv").config();
 
 const app = express();
 
