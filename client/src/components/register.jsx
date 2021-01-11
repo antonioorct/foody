@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { register } from "../services/authService";
 import useForm from "../utils/useForm";
 
@@ -17,15 +17,28 @@ export default function Register() {
   return (
     <Form onSubmit={handleSubmit}>
       <FormControl
+        name="firstName"
+        value={form.firstName}
+        onChange={handleChange}
+        placeholder="First name"
+      />
+      <FormControl
         name="username"
         value={form.username}
+        onChange={handleChange}
         placeholder="Username"
       />
-      <FormControl name="email" value={form.email} placeholder="E-mail" />
+      <FormControl
+        name="email"
+        value={form.email}
+        onChange={handleChange}
+        placeholder="E-mail"
+      />
       <FormControl
         type="password"
         name="password"
         value={form.password}
+        onChange={handleChange}
         placeholder="Password"
       />
       <Button type="submit">Submit</Button>
