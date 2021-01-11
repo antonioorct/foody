@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) =>
   sequelize.define(
-    "location",
+    "userLocation",
     {
       id: {
         type: DataTypes.INTEGER,

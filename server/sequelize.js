@@ -15,7 +15,7 @@ sequelize
 
 const models = [
   require("./models/user.model"),
-  require("./models/location.model"),
+  require("./models/userLocation.model"),
   require("./models/restaurant.model"),
   require("./models/meal.model"),
   require("./models/order.model"),
