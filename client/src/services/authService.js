@@ -13,6 +13,8 @@ export async function login(userInfo) {
 
   if (status === 404) console.log("User not found");
   else localStorage.setItem("token", jwt);
+
+  return await getLoggedInUser();
 }
 
 export async function logout() {

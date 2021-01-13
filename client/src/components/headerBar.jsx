@@ -1,9 +1,10 @@
 import React, { useContext, useState } from "react";
-import { UserContext } from "../contexts/UserContext";
+import { UserContext, initialState } from "../contexts/UserContext";
 
 import Button from "react-bootstrap/Button";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import { logout } from "../services/authService";
 
 export default function HeaderBar() {
   const [user, setUser] = useContext(UserContext);
@@ -12,11 +13,24 @@ export default function HeaderBar() {
     <Navbar bg="dark" variant="dark" expand="lg">
       <Navbar.Brand href="/">Foody</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Nav>
+        <Nav.Link href="/orders">Narudzbe</Nav.Link>
+      </Nav>
+
       <Nav className="ml-auto">
-        {user ? (
+        {user.isAuthenticated ? (
           <>
-            <Nav.Link>{`${user.firstName} ${user.lastName}`}</Nav.Link>
-            <Button>Logout</Button>
+            <Nav.Link>
+              {user.firstName ? user.firstName : user.username}
+            </Nav.Link>
+            <Button
+              onClick={() => {
+                logout();
+                setUser(initialState);
+              }}
+            >
+              Logout
+            </Button>
           </>
         ) : (
           <Button href="/login">Login</Button>

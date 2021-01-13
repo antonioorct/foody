@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { login } from "../services/authService";
 import useForm from "../utils/useForm";
 
@@ -6,14 +6,17 @@ import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
 import { useHistory } from "react-router-dom";
+import { UserContext } from "../contexts/UserContext";
 
 export default function Login() {
+  const [user, setUser] = useContext(UserContext);
   const [form, handleChange] = useForm();
   const history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await login(form);
+    const loggedInUser = await login(form);
+    setUser(loggedInUser);
     history.push("/");
   };
 
