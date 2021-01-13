@@ -10,12 +10,15 @@ import FormControl from "react-bootstrap/FormControl";
 import FormCheck from "react-bootstrap/FormCheck";
 import Button from "react-bootstrap/Button";
 import { makeOrder } from "../services/orderService";
+import { useHistory } from "react-router-dom";
 
 export default function Checkout() {
-  const user = useContext(UserContext);
+  const user = useContext(UserContext)[0];
   const { state: cart } = useLocation();
   const { restaurantId } = useLocation();
   const [userLocations, setUserLocations] = useState([]);
+  const [redirecting, setRedirecting] = useState(false);
+  const history = useHistory();
 
   useEffect(async () => {
     console.log(restaurantId);
@@ -33,13 +36,18 @@ export default function Checkout() {
       e.target.elements.userLocation.value
     );
 
-    makeOrder(
-      cart,
-      //TODO: change to UserContext.id
-      3,
-      restaurantId,
-      locationId
+    const price = cart.reduce(
+      (acc, currMeal) => acc + parseFloat(currMeal.price),
+      0
     );
+
+    makeOrder(cart, user.id, restaurantId, locationId, price);
+
+    setTimeout(() => {
+      history.push("/orders");
+    }, 3000);
+
+    setRedirecting(true);
   };
 
   return (
@@ -65,13 +73,25 @@ export default function Checkout() {
         <FormCheck
           label="Plati gotovinom"
           type="radio"
-          id="gotovina"
+          id="cash"
           name="pay-method"
           defaultChecked
+        ></FormCheck>
+        <FormCheck
+          label="Plati karticom"
+          type="radio"
+          id="card"
+          name="pay-method"
+          disabled
         ></FormCheck>
 
         <Button type="submit">Naruci</Button>
       </Form>
+
+      <br />
+      <br />
+
+      {redirecting && <p>Slanje narudzbe... Bit cete uskoro preusmjereni.</p>}
     </div>
   );
 }
