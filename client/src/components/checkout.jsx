@@ -21,7 +21,6 @@ export default function Checkout() {
   const history = useHistory();
 
   useEffect(async () => {
-    console.log(restaurantId);
     const userLocations = await getUserLocations(user.id);
 
     setUserLocations(userLocations);
@@ -29,7 +28,6 @@ export default function Checkout() {
 
   const submitOrder = (e) => {
     e.preventDefault();
-    console.log(e.target.elements.userLocation.value);
 
     const locationId = getLocationIdFromName(
       userLocations,
