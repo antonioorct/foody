@@ -26,6 +26,10 @@ module.exports = (sequelize) =>
         allowNull: false,
         unsigned: true,
       },
+      price: {
+        type: DataTypes.DECIMAL,
+        allowNull: false,
+      },
       status: {
         type: DataTypes.STRING,
         allowNull: false,

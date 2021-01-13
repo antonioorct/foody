@@ -4,6 +4,13 @@ module.exports = (sequelize) =>
   sequelize.define(
     "orderMeal",
     {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        allowNull: false,
+        unsigned: true,
+        autoIncrement: true,
+      },
       orderId: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -19,5 +26,6 @@ module.exports = (sequelize) =>
       updatedAt: false,
       createdAt: false,
       underscored: true,
+      tableName: "orders_meals",
     }
   );
