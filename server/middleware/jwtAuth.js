@@ -11,6 +11,7 @@ const verifyJwt = (req, res, next) => {
     req.userId = jwtDecoded.id;
     req.email = jwtDecoded.email;
     req.username = jwtDecoded.username;
+    req.firstName = jwtDecoded.firstName;
     next();
   });
 };
