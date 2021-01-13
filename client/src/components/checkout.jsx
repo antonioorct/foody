@@ -36,10 +36,9 @@ export default function Checkout() {
       e.target.elements.userLocation.value
     );
 
-    const price = cart.reduce(
-      (acc, currMeal) => acc + parseFloat(currMeal.price),
-      0
-    );
+    const price = cart
+      .reduce((acc, currMeal) => acc + parseFloat(currMeal.price), 0)
+      .toFixed(2);
 
     makeOrder(cart, user.id, restaurantId, locationId, price);
 
@@ -59,7 +58,9 @@ export default function Checkout() {
       {cart.length !== 0 && (
         <h3>
           Total:{" "}
-          {cart.reduce((acc, currMeal) => acc + parseFloat(currMeal.price), 0)}{" "}
+          {cart
+            .reduce((acc, currMeal) => acc + parseFloat(currMeal.price), 0)
+            .toFixed(2)}{" "}
           kn
         </h3>
       )}
