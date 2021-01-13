@@ -8,8 +8,24 @@ export async function register(userInfo) {
   await http.post(apiEndPoint + "users", userInfo);
 }
 
-export async function login(userInfo) {
-  const { data: jwt, status } = await http.post(apiEndPoint + "auth", userInfo);
+export async function loginUser(userInfo) {
+  console.log(userInfo);
+  const { data: jwt, status } = await http.post(
+    apiEndPoint + "auth/user",
+    userInfo
+  );
+
+  if (status === 404) console.log("User not found");
+  else localStorage.setItem("token", jwt);
+
+  return await getLoggedInUser();
+}
+
+export async function loginRestaurant(restaurantInfo) {
+  const { data: jwt, status } = await http.post(
+    apiEndPoint + "auth/restaurant",
+    restaurantInfo
+  );
 
   if (status === 404) console.log("User not found");
   else localStorage.setItem("token", jwt);
