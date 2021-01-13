@@ -4,6 +4,7 @@ import { UserContext, initialState } from "../contexts/UserContext";
 import Button from "react-bootstrap/Button";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import Image from "react-bootstrap/Image";
 import { logout } from "../services/authService";
 
 export default function HeaderBar() {
@@ -11,7 +12,13 @@ export default function HeaderBar() {
 
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
-      <Navbar.Brand href="/">Foody</Navbar.Brand>
+      <Navbar.Brand href="/">
+        <Image
+          style={{ height: "60px" }}
+          className="img-responsive"
+          src="/img/logo.png"
+        ></Image>
+      </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Nav>
         <Nav.Link href="/orders">Narudzbe</Nav.Link>
