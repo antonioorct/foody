@@ -5,12 +5,11 @@ import { UserContext } from "../contexts/UserContext";
 import { deleteOrder, getAllOrdersForUserId } from "../services/orderService";
 
 export default function Orders() {
-  const user = useContext(UserContext);
+  const user = useContext(UserContext)[0];
   const [orders, setOrders] = useState([]);
 
   useEffect(async () => {
-    //TODO: replace with usercontext.id
-    const orders = await getAllOrdersForUserId(3);
+    const orders = await getAllOrdersForUserId(user.id);
 
     setOrders(orders);
   }, []);
