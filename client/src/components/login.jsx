@@ -5,7 +5,7 @@ import useForm from "../utils/useForm";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
 
 export default function Login() {
@@ -35,7 +35,13 @@ export default function Login() {
         onChange={handleChange}
         placeholder="Password"
       />
-      <Button type="submit">Submit</Button>
+
+      <div className="d-flex">
+        <Button type="submit">Login</Button>
+        <Link className="ml-auto" to="/register">
+          <Button variant="success">Register</Button>
+        </Link>
+      </div>
     </Form>
   );
 }
