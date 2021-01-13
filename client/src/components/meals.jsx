@@ -14,39 +14,65 @@ export default function Meals() {
     setMeals(await getMealsFromRestaurant(routeParams.restaurantId));
   }, []);
 
+  const removeFromCart = (itemIndex) => {
+    let tempCart = [...cart];
+
+    tempCart = tempCart.filter((item, index) => index !== itemIndex);
+    setCart(tempCart);
+  };
+
   return (
-    <div>
-      <Link
-        to={{
-          pathname: "/checkout",
-          state: cart,
-          restaurantId: routeParams.restaurantId,
-        }}
-      >
-        <Button>Checkout</Button>
-      </Link>
+    <div className="row">
+      <div className="col">
+        {meals.map((meal, index) => (
+          <div className="border border-dark rounded p-2 my-2" key={index}>
+            <p>
+              {meal.name}
+              <br />
+              {meal.price}
+            </p>
+            <Button onClick={() => setCart([...cart, meal])}>
+              Add to cart
+            </Button>
+          </div>
+        ))}
+      </div>
 
-      {cart.length !== 0 && <h2>Cart</h2>}
-      {cart.map((meal, index) => (
-        <div key={index}>{meal.name}</div>
-      ))}
       {cart.length !== 0 && (
-        <h3>
-          Total:{" "}
-          {cart.reduce((acc, currMeal) => acc + parseFloat(currMeal.price), 0)}
-        </h3>
-      )}
+        <div className="col-2">
+          <h2>Kosarica</h2>
 
-      {meals.map((meal, index) => (
-        <div className="border border-dark rounded p-2 my-2" key={index}>
-          <p>
-            {meal.name}
-            <br />
-            {meal.price}
-          </p>
-          <Button onClick={() => setCart([...cart, meal])}>Add to cart</Button>
+          {cart.map((meal, index) => (
+            <div key={index}>
+              <Button
+                variant="outline-danger"
+                onClick={() => removeFromCart(index)}
+              >
+                x
+              </Button>
+              {meal.name}
+            </div>
+          ))}
+
+          <h3>
+            Ukupno:{" "}
+            {cart
+              .reduce((acc, currMeal) => acc + parseFloat(currMeal.price), 0)
+              .toFixed(2)}{" "}
+            kn
+          </h3>
+
+          <Link
+            to={{
+              pathname: "/checkout",
+              state: cart,
+              restaurantId: routeParams.restaurantId,
+            }}
+          >
+            <Button>Checkout</Button>
+          </Link>
         </div>
-      ))}
+      )}
     </div>
   );
 }
