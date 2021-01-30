@@ -12,7 +12,7 @@ export default function HeaderBar() {
   const [user, setUser] = useContext(UserContext);
 
   return (
-    <Navbar bg="dark" variant="dark" expand="lg">
+    <Navbar className="fixed-top" bg="dark" variant="dark" expand="lg">
       <Navbar.Brand href="/">
         <Image
           style={{ height: "60px" }}
@@ -22,14 +22,20 @@ export default function HeaderBar() {
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Nav>
-        <Nav.Link href="/orders">Narudzbe</Nav.Link>
+        {user.type === "user" && (
+          <Nav.Link href="/restaurants">Naruci</Nav.Link>
+        )}
+        {user.isAuthenticated && <Nav.Link href="/orders">Narudzbe</Nav.Link>}
+        {user.type === "restaurant" && <Nav.Link href="/meals">Jela</Nav.Link>}
       </Nav>
 
       <Nav className="ml-auto">
         {user.isAuthenticated ? (
           <span>
             <Nav.Link href="/profile">
-              {user.firstName ? user.firstName : user.username}
+              {user.firstName
+                ? user.firstName + " " + user.lastName
+                : user.name}
             </Nav.Link>
             <Button
               onClick={() => {
