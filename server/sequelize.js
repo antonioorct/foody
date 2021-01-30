@@ -29,6 +29,7 @@ models.forEach((model) => {
 sequelize.models.order.hasMany(sequelize.models.orderMeal);
 sequelize.models.orderMeal.belongsTo(sequelize.models.meal);
 sequelize.models.order.belongsTo(sequelize.models.restaurant);
+sequelize.models.order.belongsTo(sequelize.models.user);
 sequelize.models.order.belongsTo(sequelize.models.userLocation);
 
 module.exports = sequelize;
