@@ -1,4 +1,4 @@
-import "bootstrap/dist/css/bootstrap.min.css";
+import "bootswatch/dist/darkly/bootstrap.min.css";
 import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import { Route, Switch } from "react-router-dom";
@@ -30,7 +30,7 @@ export default function App() {
   return user ? (
     <UserContext.Provider value={[user, setUser]}>
       {user.isAuthenticated && <HeaderBar />}
-      <Container style={{ marginTop: "105px" }}>
+      <Container style={{ marginTop: "110px" }}>
         <Switch>
           <ProtectedRoute type="redirect" path="/" exact />
           <ProtectedRoute
