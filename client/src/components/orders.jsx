@@ -23,6 +23,14 @@ export default function Orders() {
     setOrders(tempOrders);
   };
 
+  const formatDate = (date) => {
+    const d = new Date(date);
+
+    return `${d.getHours()}:${d.getMinutes()} ${d.getDate()}.${
+      d.getUTCMonth() + 1
+    }.${d.getFullYear()}.`;
+  };
+
   return (
     <div>
       {orders.map((order, index) => (
@@ -32,7 +40,7 @@ export default function Orders() {
           <p>
             <strong>Adresa dostave:</strong> {order.userLocation.name}
             <br />
-            <strong>Vrijeme narudzbe: </strong> {order.createdAt}
+            <strong>Vrijeme narudzbe: </strong> {formatDate(order.createdAt)}
             <br />
             <strong>Cijena:</strong> {order.price} kn
           </p>
