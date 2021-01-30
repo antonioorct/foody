@@ -87,7 +87,11 @@ export default function Checkout() {
 
         {!redirecting && (
           <div>
-            <Button variant="success" type="submit">
+            <Button
+              variant="success"
+              type="submit"
+              disabled={userLocations.length === 0}
+            >
               Naruci
             </Button>
             <Link
