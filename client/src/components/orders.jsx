@@ -2,16 +2,22 @@ import React, { useState, useEffect } from "react";
 import { useContext } from "react";
 import Button from "react-bootstrap/esm/Button";
 import { UserContext } from "../contexts/UserContext";
-import { deleteOrder, getAllOrdersForUserId } from "../services/orderService";
+import {
+  deleteOrder,
+  getAllOrdersForUserId,
+  getAllOrdersForRestaurantId,
+} from "../services/orderService";
 
 export default function Orders() {
   const user = useContext(UserContext)[0];
   const [orders, setOrders] = useState([]);
 
   useEffect(async () => {
-    const orders = await getAllOrdersForUserId(user.id);
+    let tempOrders = [];
+    if (user.type === "user") tempOrders = await getAllOrdersForUserId(user.id);
+    else tempOrders = await getAllOrdersForRestaurantId(user.id);
 
-    setOrders(orders);
+    setOrders(tempOrders);
   }, []);
 
   const removeOrderFromList = (order, orderIndex) => {
@@ -35,7 +41,11 @@ export default function Orders() {
     <div>
       {orders.map((order, index) => (
         <div className="border border-dark rounded p-2 my-2" key={index}>
-          <h4>{order.restaurant.name}</h4>
+          {user.type === "user" ? (
+            <h4>{order.restaurant.name}</h4>
+          ) : (
+            <h4>{order.user.firstName + " " + order.user.lastName}</h4>
+          )}
 
           <p>
             <strong>Adresa dostave:</strong> {order.userLocation.name}

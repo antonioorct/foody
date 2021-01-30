@@ -3,7 +3,7 @@ import http from "./httpService";
 const apiEndPoint = "http://localhost:3001/api/orders";
 
 export async function getAllOrdersForUserId(userId) {
-  const { data } = await http.get(apiEndPoint + "/" + userId);
+  const { data } = await http.get(apiEndPoint + "/user/" + userId);
 
   return data;
 }
@@ -26,4 +26,10 @@ export async function makeOrder(
 
 export async function deleteOrder(orderId) {
   await http.delete(apiEndPoint + "/" + orderId);
+}
+
+export async function getAllOrdersForRestaurantId(restaurantId) {
+  const { data } = await http.get(apiEndPoint + "/restaurant/" + restaurantId);
+
+  return data;
 }
