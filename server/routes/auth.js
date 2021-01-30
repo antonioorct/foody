@@ -8,7 +8,7 @@ router.post("/user", async function (req, res) {
   const user = await models.user.findOne({
     where: { username: req.body.username },
   });
-  if (!user) return res.status(404).send("Invalid username and/or password");
+  if (!user) return res.status(404).send("Nevazeci podatci za prijavu");
 
   const doPasswordsMatch = await bcrypt.compare(
     req.body.password,
@@ -16,7 +16,7 @@ router.post("/user", async function (req, res) {
   );
 
   if (!doPasswordsMatch)
-    return res.status(404).send("Invalid username and/or password");
+    return res.status(404).send("Nevazeci podatci za prijavu");
 
   const token = jwt.sign(
     {
@@ -24,6 +24,7 @@ router.post("/user", async function (req, res) {
       username: user.username,
       email: user.email,
       firstName: user.firstName,
+      lastName: user.lastName,
       type: "user",
     },
     process.env.JWT_SECRET
@@ -36,8 +37,7 @@ router.post("/restaurant", async function (req, res) {
   const restaurant = await models.restaurant.findOne({
     where: { username: req.body.username },
   });
-  if (!restaurant)
-    return res.status(404).send("Invalid username and/or password");
+  if (!restaurant) return res.status(404).send("Nevazeci podatci za prijavu");
 
   const doPasswordsMatch = await bcrypt.compare(
     req.body.password,
@@ -45,7 +45,7 @@ router.post("/restaurant", async function (req, res) {
   );
 
   if (!doPasswordsMatch)
-    return res.status(404).send("Invalid username and/or password");
+    return res.status(404).send("Nevazeci podatci za prijavu");
 
   const token = jwt.sign(
     {

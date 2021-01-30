@@ -4,19 +4,10 @@ import { initialState } from "../contexts/UserContext";
 
 const apiEndPoint = "http://localhost:3001/api/";
 
-export async function register(userInfo) {
-  await http.post(apiEndPoint + "users", userInfo);
-}
-
 export async function loginUser(userInfo) {
-  console.log(userInfo);
-  const { data: jwt, status } = await http.post(
-    apiEndPoint + "auth/user",
-    userInfo
-  );
+  const { data: jwt } = await http.post(apiEndPoint + "auth/user", userInfo);
 
-  if (status === 404) console.log("User not found");
-  else localStorage.setItem("token", jwt);
+  localStorage.setItem("token", jwt);
 
   return await getLoggedInUser();
 }
@@ -27,8 +18,7 @@ export async function loginRestaurant(restaurantInfo) {
     restaurantInfo
   );
 
-  if (status === 404) console.log("User not found");
-  else localStorage.setItem("token", jwt);
+  localStorage.setItem("token", jwt);
 
   return await getLoggedInUser();
 }

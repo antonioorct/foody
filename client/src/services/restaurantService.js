@@ -2,6 +2,12 @@ import http from "./httpService";
 
 const apiEndPoint = "http://localhost:3001/api/restaurants/";
 
+async function registerRestaurant(restData) {
+  const { data } = await http.post(apiEndPoint, restData);
+
+  return data;
+}
+
 async function getAllRestaurants() {
   const { data } = await http.get(apiEndPoint);
 
@@ -20,4 +26,9 @@ async function updateRestaurant(restaurant) {
   return data;
 }
 
-export { getAllRestaurants, getRestaurant, updateRestaurant };
+export {
+  getAllRestaurants,
+  getRestaurant,
+  updateRestaurant,
+  registerRestaurant,
+};

@@ -1,77 +1,107 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { loginRestaurant, loginUser } from "../services/authService";
-import useForm from "../utils/useForm";
 
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
-import Feedback from "react-bootstrap/Feedback";
 import Image from "react-bootstrap/Image";
 import { Link, useHistory } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
+import * as yup from "yup";
+import { setLocale } from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+setLocale({
+  mixed: {
+    required: "Polje ne smije biti prazno.",
+  },
+  string: {
+    email: "Polje mora sadrzavati vazecu e-mail adresu.",
+    min: "Polje mora sadrzavati minimalno ${min} znakova.",
+    max: "Polje mora sadrzavati maksimalno ${max} znakova.",
+    matches: "Polje mora sadrzavati minimalno 1 broj.",
+  },
+});
+
+const schema = yup.object().shape({
+  username: yup.string().required().min(4).max(30),
+  password: yup.string().required().min(8),
+});
 
 export default function Login() {
   const [user, setUser] = useContext(UserContext);
   const history = useHistory();
+  const [serverErrorUser, setServerErrorUser] = useState("");
+  const [serverErrorRestaurant, setServerErrorRestaurant] = useState("");
 
-  const doUserSubmit = async () => {
-    const loggedInUser = await loginUser(userForm);
-    setUser(loggedInUser);
-    history.push("/");
-  };
-  const doRestaurantSubmit = async () => {
-    const loggedInRestaurant = await loginRestaurant(restaurantForm);
-    setUser(loggedInRestaurant);
-    history.push("/");
+  const {
+    register: registerUser,
+    handleSubmit: handleSubmitUser,
+    errors: errorsUser,
+  } = useForm({ resolver: yupResolver(schema) });
+
+  const {
+    register: registerRestaurant,
+    handleSubmit: handleSubmitRestaurant,
+    errors: errorsRestaurant,
+  } = useForm({ resolver: yupResolver(schema) });
+
+  const doSubmitUser = async ({ username, password }) => {
+    setServerErrorUser("");
+
+    try {
+      const loggedInUser = await loginUser({ username, password });
+      setUser(loggedInUser);
+      history.push("/restaurants");
+    } catch (e) {
+      setServerErrorUser(e.response.data);
+    }
   };
 
-  const validation = {
-    username: { required: true, minLength: 4 },
-    password: { required: true },
+  const doSubmitRestaurant = async ({ username, password }) => {
+    setServerErrorRestaurant("");
+
+    try {
+      const loggedInRestaurant = await loginRestaurant({ username, password });
+      setUser(loggedInRestaurant);
+      history.push("/orders");
+    } catch (e) {
+      setServerErrorRestaurant(e.response.data);
+    }
   };
-  const [userForm, userErrors, userHandleChange, userHandleSubmit] = useForm(
-    doUserSubmit,
-    validation
-  );
-  const [
-    restaurantForm,
-    restaurantErrors,
-    restaurantHandleChange,
-    restaurantHandleSubmit,
-  ] = useForm(doRestaurantSubmit, validation);
 
   return (
     <div className="text-center">
-      <Image style={{ height: "300px" }} src="img/logo.png"></Image>
+      <a href="/">
+        <Image style={{ height: "300px" }} src="img/logo.png"></Image>
+      </a>
       <div className="row">
         <div className="col-4">
           <h3>Korisnicka prijava</h3>
-          <Form onSubmit={userHandleSubmit}>
+          <Form onSubmit={handleSubmitUser(doSubmitUser)}>
             <FormControl
               name="username"
-              value={userForm.username}
-              onChange={userHandleChange}
-              placeholder="Username"
-              isInvalid={userErrors.username}
+              placeholder="Korisnicko ime"
+              ref={registerUser}
               autoFocus
             />
-            <Feedback type="invalid">{userErrors.username}</Feedback>
+            <p style={{ color: "red" }}>{errorsUser.username?.message}</p>
 
             <FormControl
               type="password"
               name="password"
-              value={userForm.password}
-              onChange={userHandleChange}
-              placeholder="Password"
-              isInvalid={userErrors.password}
+              ref={registerUser}
+              placeholder="Lozinka"
             />
-            <Feedback type="invalid">{userErrors.password}</Feedback>
+            <p style={{ color: "red" }}>{errorsUser.password?.message}</p>
+            <p style={{ color: "red" }}>{serverErrorUser}</p>
 
             <div className="d-flex">
               <Button variant="success" type="submit">
                 Prijava
               </Button>
-              <Link className="ml-auto" to="/register">
+              <Link className="ml-auto" to="/register_user">
                 <Button>Registracija</Button>
               </Link>
             </div>
@@ -80,31 +110,28 @@ export default function Login() {
 
         <div className="offset-4 col-4">
           <h3>Restoran prijava</h3>
-          <Form onSubmit={restaurantHandleSubmit}>
+          <Form onSubmit={handleSubmitRestaurant(doSubmitRestaurant)}>
             <FormControl
               name="username"
-              value={restaurantForm.username}
-              onChange={restaurantHandleChange}
-              placeholder="Username"
-              isInvalid={restaurantErrors.username}
+              placeholder="Korisnicko ime"
+              ref={registerRestaurant}
             />
-            <Feedback type="invalid">{restaurantErrors.username}</Feedback>
+            <p style={{ color: "red" }}>{errorsRestaurant.username?.message}</p>
 
             <FormControl
               type="password"
               name="password"
-              value={restaurantForm.password}
-              onChange={restaurantHandleChange}
-              placeholder="Password"
-              isInvalid={restaurantErrors.password}
+              ref={registerRestaurant}
+              placeholder="Lozinka"
             />
-            <Feedback type="invalid">{restaurantErrors.password}</Feedback>
+            <p style={{ color: "red" }}>{errorsRestaurant.password?.message}</p>
+            <p style={{ color: "red" }}>{serverErrorRestaurant}</p>
 
             <div className="d-flex">
               <Button variant="success" type="submit">
                 Prijava
               </Button>
-              <Link className="ml-auto" to="/register">
+              <Link className="ml-auto" to="/register_restaurant">
                 <Button>Registracija</Button>
               </Link>
             </div>

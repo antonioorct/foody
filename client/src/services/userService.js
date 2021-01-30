@@ -3,6 +3,10 @@ import http from "./httpService";
 const apiEndPointUserLocations = "http://localhost:3001/api/user_locations/";
 const apiEndPointUsers = "http://localhost:3001/api/users/";
 
+async function registerUser(userInfo) {
+  await http.post(apiEndPointUsers, userInfo);
+}
+
 async function getUserLocations(userId) {
   const { data } = await http.get(apiEndPointUserLocations + userId);
 
@@ -38,6 +42,7 @@ async function removeLocationFromUser(locationId) {
 }
 
 export {
+  registerUser,
   getUserLocations,
   getLocationIdFromName,
   updateUser,
