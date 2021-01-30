@@ -6,6 +6,7 @@ import {
   deleteMeal,
 } from "../services/mealsService";
 import * as yup from "yup";
+import { setLocale } from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -14,15 +15,26 @@ import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import FormLabel from "react-bootstrap/FormLabel";
 
+setLocale({
+  mixed: {
+    required: "Polje ne smije biti prazno.",
+    notType: "Broj mora biti vazeci.",
+  },
+  number: {
+    max: "Polje smije sadrzavati maksimalno 6 znakova",
+    positive: "Broj mora biti vazeci.",
+  },
+});
+
 const schema = yup.object().shape({
   name: yup.string().required(),
-  price: yup.number().required().positive(),
+  price: yup.number().required().max(999999).positive(),
 });
 
 export default function RestaurantMeals() {
   const user = useContext(UserContext)[0];
   const [meals, setMeals] = useState([]);
-  const { register, handleSubmit, errors } = useForm({
+  const { register, handleSubmit, errors, reset } = useForm({
     resolver: yupResolver(schema),
   });
 
@@ -33,9 +45,14 @@ export default function RestaurantMeals() {
   }, []);
 
   const onSubmit = async ({ name, price }) => {
-    const tempMeal = await newMeal({ name, price, restaurantId: user.id });
+    const tempMeal = await newMeal({
+      name,
+      price: parseFloat(price).toFixed(2),
+      restaurantId: user.id,
+    });
 
     setMeals([...meals, tempMeal]);
+    reset();
   };
 
   return (
@@ -44,9 +61,11 @@ export default function RestaurantMeals() {
         <FormLabel>Ime jela</FormLabel>
         <FormControl name="name" ref={register}></FormControl>
         <p>{errors.name?.message}</p>
+
         <FormLabel>Cijena jela</FormLabel>
         <FormControl name="price" ref={register}></FormControl>
         <p>{errors.price?.message}</p>
+
         <Button type="submit" variant="success">
           Dodaj jelo
         </Button>
