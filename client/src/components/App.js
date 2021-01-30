@@ -6,7 +6,6 @@ import { UserContext } from "../contexts/UserContext";
 import HeaderBar from "./headerBar";
 import Login from "./login";
 import Main from "./main";
-import Register from "./register";
 import Meals from "./meals";
 import Checkout from "./checkout";
 import Orders from "./orders";
@@ -15,6 +14,9 @@ import ProtectedRoute from "./protectedRoute";
 import UserProfile from "./userProfile";
 import RestaurantProfile from "./restaurantProfile";
 import RestaurantMeals from "./restaurantMeals";
+import UserRegister from "./userRegister";
+import RestaurantRegister from "./restaurantRegister";
+import NotFound from "./notFound";
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -63,7 +65,13 @@ export default function App() {
           />
 
           <Route path="/login" component={Login} exact />
-          <Route path="/register" component={Register} exact />
+          <Route path="/register_user" component={UserRegister} exact />
+          <Route
+            path="/register_restaurant"
+            component={RestaurantRegister}
+            exact
+          />
+          <Route path="*" component={NotFound} />
         </Switch>
       </Container>
     </UserContext.Provider>
