@@ -14,7 +14,7 @@ import {
 } from "../services/userService";
 import InputGroup from "react-bootstrap/InputGroup";
 
-export default function Profile() {
+export default function UserProfile() {
   const [user, setUser] = useContext(UserContext);
   const [editing, setEditing] = useState(false);
   const [form, setForm] = useState({});
@@ -37,21 +37,21 @@ export default function Profile() {
     setForm({ ...form, [target.name]: target.value });
 
   const handleSubmit = () => {
-    updateUser({ ...form, id: user.id });
+    if (
+      Object.keys(form).findIndex(
+        (key) => form[key] === "" && key !== "phone"
+      ) === -1
+    ) {
+      setEditing(false);
+      updateUser({ ...form, id: user.id });
+    }
   };
 
   return (
     <div>
       <h2>Profil</h2>
       {editing ? (
-        <Button
-          onClick={() => {
-            setEditing(false);
-            handleSubmit();
-          }}
-        >
-          Spremi promjene
-        </Button>
+        <Button onClick={() => handleSubmit()}>Spremi promjene</Button>
       ) : (
         <Button onClick={() => setEditing(true)}>Promijeni</Button>
       )}

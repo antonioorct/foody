@@ -14,4 +14,10 @@ async function getRestaurant(restaurantId) {
   return data;
 }
 
-export { getAllRestaurants, getRestaurant };
+async function updateRestaurant(restaurant) {
+  const { data } = await http.put(apiEndPoint + restaurant.id, restaurant);
+
+  return data;
+}
+
+export { getAllRestaurants, getRestaurant, updateRestaurant };

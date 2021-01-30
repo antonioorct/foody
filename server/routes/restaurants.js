@@ -14,4 +14,14 @@ router.get("/:restaurantId", async function (req, res) {
   res.status(200).send(restaurant);
 });
 
+router.put("/:restaurantId", async function (req, res) {
+  await models.restaurant.update(req.body, {
+    where: { id: req.params.restaurantId },
+  });
+
+  const restaurant = await models.restaurant.findByPk(req.params.restaurantId);
+
+  return res.status(200).send(restaurant);
+});
+
 module.exports = router;
