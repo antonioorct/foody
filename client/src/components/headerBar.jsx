@@ -6,6 +6,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Image from "react-bootstrap/Image";
 import { logout } from "../services/authService";
+import { Link } from "react-router-dom";
 
 export default function HeaderBar() {
   const [user, setUser] = useContext(UserContext);
@@ -26,8 +27,8 @@ export default function HeaderBar() {
 
       <Nav className="ml-auto">
         {user.isAuthenticated ? (
-          <>
-            <Nav.Link>
+          <span>
+            <Nav.Link href="/profile">
               {user.firstName ? user.firstName : user.username}
             </Nav.Link>
             <Button
@@ -38,7 +39,7 @@ export default function HeaderBar() {
             >
               Logout
             </Button>
-          </>
+          </span>
         ) : (
           <Button href="/login">Login</Button>
         )}
