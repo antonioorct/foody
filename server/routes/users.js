@@ -11,7 +11,7 @@ router.get("/:userId", verifyJwt, async function (req, res) {
   return res.status(200).send(user);
 });
 
-router.post("/", verifyJwt, async function (req, res) {
+router.post("/", async function (req, res) {
   try {
     req.body["password"] = await bcrypt.hash(req.body["password"], 10);
     await models.user.create(req.body);
