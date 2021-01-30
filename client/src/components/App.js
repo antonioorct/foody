@@ -12,6 +12,7 @@ import Checkout from "./checkout";
 import Orders from "./orders";
 import { getLoggedInUser } from "../services/authService";
 import ProtectedRoute from "./protectedRoute";
+import Profile from "./profile";
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -24,7 +25,7 @@ export default function App() {
 
   return user ? (
     <UserContext.Provider value={[user, setUser]}>
-      <HeaderBar />
+      {user.isAuthenticated && <HeaderBar />}
       <Container>
         <Switch>
           <ProtectedRoute path="/" component={Main} exact />
@@ -35,6 +36,7 @@ export default function App() {
           />
           <ProtectedRoute path="/checkout" component={Checkout} exact />
           <ProtectedRoute path="/orders" component={Orders} exact />
+          <ProtectedRoute path="/profile" component={Profile} exact />
 
           <Route path="/login" component={Login} exact />
           <Route path="/register" component={Register} exact />
