@@ -53,6 +53,7 @@ export default function Login() {
               onChange={userHandleChange}
               placeholder="Username"
               isInvalid={userErrors.username}
+              autoFocus
             />
             <Feedback type="invalid">{userErrors.username}</Feedback>
 
@@ -67,9 +68,11 @@ export default function Login() {
             <Feedback type="invalid">{userErrors.password}</Feedback>
 
             <div className="d-flex">
-              <Button type="submit">Login</Button>
+              <Button variant="success" type="submit">
+                Prijava
+              </Button>
               <Link className="ml-auto" to="/register">
-                <Button variant="success">Register</Button>
+                <Button>Registracija</Button>
               </Link>
             </div>
           </Form>
@@ -98,9 +101,11 @@ export default function Login() {
             <Feedback type="invalid">{restaurantErrors.password}</Feedback>
 
             <div className="d-flex">
-              <Button type="submit">Login</Button>
+              <Button variant="success" type="submit">
+                Prijava
+              </Button>
               <Link className="ml-auto" to="/register">
-                <Button variant="success">Register</Button>
+                <Button>Registracija</Button>
               </Link>
             </div>
           </Form>
