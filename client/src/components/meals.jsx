@@ -31,12 +31,24 @@ export default function Meals() {
 
   return (
     <div>
-      <div className="row">
-        <div className="col">
-          <h2>{restaurant.name}</h2>
+      <div className="row" style={{ height: "300px" }}>
+        <div className="col border rounded">
+          <h2 className="mt-3">{restaurant.name}</h2>
           <h4>{restaurant.location}</h4>
           <h5>{restaurant.phone}</h5>
         </div>
+
+        {restaurant.location && (
+          <div className="col embed-responsive embed-responisve-16by9">
+            <iframe
+              className="embed-responsive-item"
+              src={
+                "https://www.google.com/maps/embed/v1/place?key=AIzaSyAs6Spn2fVVaFd9wvza8ZxdEESemGLyy2k&q=" +
+                restaurant.location.replaceAll(" ", "+")
+              }
+            ></iframe>
+          </div>
+        )}
       </div>
 
       <div className="row">
