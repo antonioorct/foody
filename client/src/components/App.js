@@ -12,7 +12,9 @@ import Checkout from "./checkout";
 import Orders from "./orders";
 import { getLoggedInUser } from "../services/authService";
 import ProtectedRoute from "./protectedRoute";
-import Profile from "./profile";
+import UserProfile from "./userProfile";
+import RestaurantProfile from "./restaurantProfile";
+import RestaurantMeals from "./restaurantMeals";
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -26,17 +28,39 @@ export default function App() {
   return user ? (
     <UserContext.Provider value={[user, setUser]}>
       {user.isAuthenticated && <HeaderBar />}
-      <Container>
+      <Container style={{ marginTop: "105px" }}>
         <Switch>
-          <ProtectedRoute path="/" component={Main} exact />
+          <ProtectedRoute type="redirect" path="/" exact />
           <ProtectedRoute
+            type="user"
+            path="/restaurants"
+            component={Main}
+            exact
+          />
+          <ProtectedRoute
+            type="user"
             path="/restaurant/:restaurantId"
             component={Meals}
             exact
           />
-          <ProtectedRoute path="/checkout" component={Checkout} exact />
+          <ProtectedRoute
+            type="user"
+            path="/checkout"
+            component={Checkout}
+            exact
+          />
+          <ProtectedRoute
+            type="restaurant"
+            path="/meals"
+            component={RestaurantMeals}
+            exact
+          />
           <ProtectedRoute path="/orders" component={Orders} exact />
-          <ProtectedRoute path="/profile" component={Profile} exact />
+          <ProtectedRoute
+            path="/profile"
+            component={user.type === "user" ? UserProfile : RestaurantProfile}
+            exact
+          />
 
           <Route path="/login" component={Login} exact />
           <Route path="/register" component={Register} exact />
