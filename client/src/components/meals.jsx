@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { getMealsFromRestaurant } from "../services/mealsService";
 
+import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
 import { getRestaurant } from "../services/restaurantService";
 
@@ -9,6 +10,7 @@ export default function Meals() {
   const [meals, setMeals] = useState([]);
   const [cart, setCart] = useState([]);
   const [restaurant, setRestaurant] = useState({});
+  const [search, setSearch] = useState("");
 
   const { state } = useLocation();
   const routeParams = useParams();
@@ -41,18 +43,28 @@ export default function Meals() {
         <div className="col">
           <hr />
           <h2>Ponuda</h2>
-          {meals.map((meal, index) => (
-            <div className="border border-dark rounded p-2 my-2" key={index}>
-              <p>
-                <strong>{meal.name}</strong>
-                <br />
-                {meal.price + " kn"}
-              </p>
-              <Button onClick={() => setCart([...cart, meal])}>
-                Dodaj u kosaricu
-              </Button>
-            </div>
-          ))}
+          <FormControl
+            value={search}
+            onChange={({ target }) => setSearch(target.value)}
+            placeholder="Pretraga"
+          ></FormControl>
+
+          {meals
+            .filter((meal) =>
+              meal.name.toLowerCase().includes(search.toLowerCase())
+            )
+            .map((meal, index) => (
+              <div className="border border-dark rounded p-2 my-2" key={index}>
+                <p>
+                  <strong>{meal.name}</strong>
+                  <br />
+                  {meal.price + " kn"}
+                </p>
+                <Button onClick={() => setCart([...cart, meal])}>
+                  Dodaj u kosaricu
+                </Button>
+              </div>
+            ))}
         </div>
 
         {cart.length !== 0 && (
