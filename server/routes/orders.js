@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const { models, model } = require("../sequelize");
+const { models } = require("../sequelize");
 
-router.get("/:userId", async function (req, res) {
+router.get("/user/:userId", async function (req, res) {
   const orders = await models.order.findAll({
     include: [
       { model: models.orderMeal, include: [{ model: models.meal }] },
@@ -10,6 +10,19 @@ router.get("/:userId", async function (req, res) {
       { model: models.userLocation },
     ],
     where: { userId: req.params.userId },
+  });
+
+  res.status(200).send(orders);
+});
+
+router.get("/restaurant/:restaurantId", async function (req, res) {
+  const orders = await models.order.findAll({
+    include: [
+      { model: models.orderMeal, include: [{ model: models.meal }] },
+      { model: models.user },
+      { model: models.userLocation },
+    ],
+    where: { restaurantId: req.params.restaurantId },
   });
 
   res.status(200).send(orders);
