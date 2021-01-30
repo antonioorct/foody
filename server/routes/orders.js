@@ -1,8 +1,9 @@
 const express = require("express");
+const { verifyJwt } = require("../middleware/jwtAuth");
 const router = express.Router();
 const { models } = require("../sequelize");
 
-router.get("/user/:userId", async function (req, res) {
+router.get("/user/:userId", verifyJwt, async function (req, res) {
   const orders = await models.order.findAll({
     include: [
       { model: models.orderMeal, include: [{ model: models.meal }] },
@@ -15,7 +16,7 @@ router.get("/user/:userId", async function (req, res) {
   res.status(200).send(orders);
 });
 
-router.get("/restaurant/:restaurantId", async function (req, res) {
+router.get("/restaurant/:restaurantId", verifyJwt, async function (req, res) {
   const orders = await models.order.findAll({
     include: [
       { model: models.orderMeal, include: [{ model: models.meal }] },
@@ -28,7 +29,7 @@ router.get("/restaurant/:restaurantId", async function (req, res) {
   res.status(200).send(orders);
 });
 
-router.post("/", async function (req, res) {
+router.post("/", verifyJwt, async function (req, res) {
   const newOrder = await models.order.create({
     userId: req.body.userId,
     restaurantId: req.body.restaurantId,
@@ -61,7 +62,7 @@ router.post("/", async function (req, res) {
   res.status(200).send(newOrder);
 });
 
-router.delete("/:orderId", async function (req, res) {
+router.delete("/:orderId", verifyJwt, async function (req, res) {
   await models.orderMeal.destroy({ where: { orderId: req.params.orderId } });
   await models.order.destroy({ where: { id: req.params.orderId } });
 

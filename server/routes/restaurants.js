@@ -3,14 +3,15 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const { models } = require("../sequelize");
 const { ValidationError } = require("sequelize");
+const { verifyJwt, verifyRestaurant } = require("../middleware/jwtAuth");
 
-router.get("/", async function (req, res) {
+router.get("/", verifyJwt, async function (req, res) {
   const restaurants = await models.restaurant.findAll();
 
   res.status(200).send(restaurants);
 });
 
-router.get("/:restaurantId", async function (req, res) {
+router.get("/:restaurantId", verifyJwt, async function (req, res) {
   const restaurant = await models.restaurant.findByPk(req.params.restaurantId);
 
   res.status(200).send(restaurant);
@@ -42,7 +43,7 @@ router.post("/", async function (req, res) {
   }
 });
 
-router.put("/:restaurantId", async function (req, res) {
+router.put("/:restaurantId", verifyRestaurant, async function (req, res) {
   await models.restaurant.update(req.body, {
     where: { id: req.params.restaurantId },
   });
