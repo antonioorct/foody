@@ -84,14 +84,17 @@ export default function Meals() {
             <h2>Kosarica</h2>
 
             {cart.map((meal, index) => (
-              <div key={index}>
+              <div className="border rounded my-2 p-1" key={index}>
                 <Button
-                  variant="outline-danger"
-                  onClick={() => removeFromCart(index)}
+                  style={{ lineHeight: "0", padding: "15px 9px" }}
+                  variant="danger"
+                  onClick={() => {
+                    removeFromCart(index);
+                  }}
                 >
-                  x
+                  ✕
                 </Button>
-                {meal.name}
+                <span className="ml-2">{" " + meal.name}</span>
               </div>
             ))}
 
