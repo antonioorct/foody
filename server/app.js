@@ -12,6 +12,8 @@ app.use(cors());
 
 router(app);
 
+app.use(express.static("public"));
+
 try {
   app.listen(process.env.PORT);
   console.log("Listening on port " + process.env.PORT);

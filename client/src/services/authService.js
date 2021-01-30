@@ -2,10 +2,10 @@ import http from "./httpService";
 import jwtDecode from "jwt-decode";
 import { initialState } from "../contexts/UserContext";
 
-const apiEndPoint = "http://localhost:3001/api/";
+const apiEndPoint = process.env.REACT_APP_API_URL;
 
 export async function loginUser(userInfo) {
-  const { data: jwt } = await http.post(apiEndPoint + "auth/user", userInfo);
+  const { data: jwt } = await http.post(apiEndPoint + "/auth/user", userInfo);
 
   localStorage.setItem("token", jwt);
 
@@ -14,7 +14,7 @@ export async function loginUser(userInfo) {
 
 export async function loginRestaurant(restaurantInfo) {
   const { data: jwt, status } = await http.post(
-    apiEndPoint + "auth/restaurant",
+    apiEndPoint + "/auth/restaurant",
     restaurantInfo
   );
 

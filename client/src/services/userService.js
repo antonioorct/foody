@@ -1,14 +1,13 @@
 import http from "./httpService";
 
-const apiEndPointUserLocations = "http://localhost:3001/api/user_locations/";
-const apiEndPointUsers = "http://localhost:3001/api/users/";
+const apiEndPoint = process.env.REACT_APP_API_URL;
 
 async function registerUser(userInfo) {
-  await http.post(apiEndPointUsers, userInfo);
+  await http.post(apiEndPoint + "/users", userInfo);
 }
 
 async function getUserLocations(userId) {
-  const { data } = await http.get(apiEndPointUserLocations + userId);
+  const { data } = await http.get(apiEndPoint + "/user_locations/" + userId);
 
   return data;
 }
@@ -18,19 +17,22 @@ function getLocationIdFromName(locations, locationName) {
 }
 
 async function getUser(userId) {
-  const { data } = await http.get(apiEndPointUsers + userId);
+  const { data } = await http.get(apiEndPoint + "/users/" + userId);
 
   return data;
 }
 
 async function updateUser(userData) {
-  const { data } = await http.put(apiEndPointUsers + userData.id, userData);
+  const { data } = await http.put(
+    apiEndPoint + "/users/" + userData.id,
+    userData
+  );
 
   return data;
 }
 
 async function newLocation(userId, locationName) {
-  const { data } = await http.post(apiEndPointUserLocations + userId, {
+  const { data } = await http.post(apiEndPoint + "/user_locations/" + userId, {
     name: locationName,
   });
 
@@ -38,7 +40,7 @@ async function newLocation(userId, locationName) {
 }
 
 async function removeLocationFromUser(locationId) {
-  http.delete(apiEndPointUserLocations + locationId);
+  http.delete(apiEndPoint + "/user_locations/" + locationId);
 }
 
 export {

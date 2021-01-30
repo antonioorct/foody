@@ -1,27 +1,30 @@
 import http from "./httpService";
 
-const apiEndPoint = "http://localhost:3001/api/restaurants/";
+const apiEndPoint = process.env.REACT_APP_API_URL;
 
 async function registerRestaurant(restData) {
-  const { data } = await http.post(apiEndPoint, restData);
+  const { data } = await http.post(apiEndPoint + "/restaurants", restData);
 
   return data;
 }
 
 async function getAllRestaurants() {
-  const { data } = await http.get(apiEndPoint);
+  const { data } = await http.get(apiEndPoint + "/restaurants");
 
   return data;
 }
 
 async function getRestaurant(restaurantId) {
-  const { data } = await http.get(apiEndPoint + restaurantId);
+  const { data } = await http.get(apiEndPoint + "/restaurants/" + restaurantId);
 
   return data;
 }
 
 async function updateRestaurant(restaurant) {
-  const { data } = await http.put(apiEndPoint + restaurant.id, restaurant);
+  const { data } = await http.put(
+    apiEndPoint + "/restaurants/" + restaurant.id,
+    restaurant
+  );
 
   return data;
 }
