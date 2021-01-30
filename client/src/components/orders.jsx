@@ -59,8 +59,8 @@ export default function Orders() {
           </p>
 
           <ul style={{ listStyleType: "none" }}>
-            {order.orderMeals.map((meal) => (
-              <li>{meal.meal.name}</li>
+            {order.orderMeals.map((meal, mealIndex) => (
+              <li key={mealIndex}>{meal.meal.name}</li>
             ))}
           </ul>
           <Button
