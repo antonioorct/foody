@@ -102,7 +102,7 @@ export default function UserProfile() {
 
           <tr>
             <td>
-              <strong>Username</strong>
+              <strong>Korisnicko ime</strong>
               <br />
               {user.username}
             </td>
@@ -137,7 +137,7 @@ export default function UserProfile() {
       </InputGroup>
       <div style={{ lineHeight: "3" }}>
         {locations.map((loc, index) => (
-          <div key={index}>
+          <div className="border rounded my-2 p-1" key={index}>
             <Button
               style={{ lineHeight: "0", padding: "15px 9px" }}
               variant="danger"
@@ -152,7 +152,7 @@ export default function UserProfile() {
             >
               ✕
             </Button>
-            {" " + loc.name}
+            <span className="ml-2">{" " + loc.name}</span>
           </div>
         ))}
       </div>
