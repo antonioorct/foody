@@ -11,6 +11,7 @@ import FormCheck from "react-bootstrap/FormCheck";
 import Button from "react-bootstrap/Button";
 import { makeOrder } from "../services/orderService";
 import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Checkout() {
   const user = useContext(UserContext)[0];
@@ -84,11 +85,22 @@ export default function Checkout() {
           disabled
         ></FormCheck>
 
-        <Button type="submit">Naruci</Button>
+        {!redirecting && (
+          <div>
+            <Button variant="success" type="submit">
+              Naruci
+            </Button>
+            <Link
+              to={{
+                pathname: "/restaurant/" + restaurantId,
+                state: cart,
+              }}
+            >
+              <Button>Povratak</Button>
+            </Link>
+          </div>
+        )}
       </Form>
-
-      <br />
-      <br />
 
       {redirecting && <p>Slanje narudzbe... Bit cete uskoro preusmjereni.</p>}
     </div>

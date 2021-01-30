@@ -8,4 +8,10 @@ router.get("/", async function (req, res) {
   res.status(200).send(restaurants);
 });
 
+router.get("/:restaurantId", async function (req, res) {
+  const restaurant = await models.restaurant.findByPk(req.params.restaurantId);
+
+  res.status(200).send(restaurant);
+});
+
 module.exports = router;
