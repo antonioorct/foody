@@ -4,8 +4,10 @@ const { models } = require("../sequelize");
 const bcrypt = require("bcrypt");
 const { ValidationError } = require("sequelize");
 
-router.get("/", function (req, res) {
-  res.send("respond with a resource");
+router.get("/:userId", async function (req, res) {
+  const user = await models.user.findByPk(parseInt(req.params.userId));
+
+  return res.status(200).send(user);
 });
 
 router.post("/", async function (req, res) {
@@ -31,6 +33,14 @@ router.post("/", async function (req, res) {
 
     return res.status(400).send(message);
   }
+});
+
+router.put("/:userId", async function (req, res) {
+  await models.user.update(req.body, { where: { id: req.params.userId } });
+
+  const user = await models.user.findByPk(req.params.userId);
+
+  return res.status(200).send(user);
 });
 
 module.exports = router;

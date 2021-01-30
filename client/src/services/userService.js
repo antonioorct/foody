@@ -1,13 +1,47 @@
 import http from "./httpService";
 
-const apiEndPoint = "http://localhost:3001/api/user_locations";
+const apiEndPointUserLocations = "http://localhost:3001/api/user_locations/";
+const apiEndPointUsers = "http://localhost:3001/api/users/";
 
-export async function getUserLocations(userId) {
-  const { data } = await http.get(apiEndPoint + "/" + 3);
+async function getUserLocations(userId) {
+  const { data } = await http.get(apiEndPointUserLocations + userId);
 
   return data;
 }
 
-export function getLocationIdFromName(locations, locationName) {
+function getLocationIdFromName(locations, locationName) {
   return locations.find((location) => locationName === location.name).id;
 }
+
+async function getUser(userId) {
+  const { data } = await http.get(apiEndPointUsers + userId);
+
+  return data;
+}
+
+async function updateUser(userData) {
+  const { data } = await http.put(apiEndPointUsers + userData.id, userData);
+
+  return data;
+}
+
+async function newLocation(userId, locationName) {
+  const { data } = await http.post(apiEndPointUserLocations + userId, {
+    name: locationName,
+  });
+
+  return data;
+}
+
+async function removeLocationFromUser(locationId) {
+  http.delete(apiEndPointUserLocations + locationId);
+}
+
+export {
+  getUserLocations,
+  getLocationIdFromName,
+  updateUser,
+  getUser,
+  newLocation,
+  removeLocationFromUser,
+};
