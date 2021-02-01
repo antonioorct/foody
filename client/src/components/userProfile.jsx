@@ -4,6 +4,7 @@ import { UserContext } from "../contexts/UserContext";
 import Table from "react-bootstrap/Table";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 
 import {
   updateUser,
@@ -116,25 +117,32 @@ export default function UserProfile() {
       </Table>
 
       <h2>Adrese</h2>
-      <InputGroup>
-        <FormControl
-          onChange={({ target }) => setLocationForm(target.value)}
-          value={locationForm}
-        ></FormControl>
-        <InputGroup.Append>
-          <Button
-            variant="success"
-            onClick={async () => {
-              const newLoc = await newLocation(user.id, locationForm);
+      <Form
+        onSubmit={async (e) => {
+          e.preventDefault();
+          if (locationForm.length === 0) return;
+          const newLoc = await newLocation(user.id, locationForm);
 
-              setLocations([...locations, newLoc]);
-              setLocationForm("");
-            }}
-          >
-            Dodaj
-          </Button>
-        </InputGroup.Append>
-      </InputGroup>
+          setLocations([...locations, newLoc]);
+          setLocationForm("");
+        }}
+      >
+        <InputGroup>
+          <FormControl
+            onChange={({ target }) => setLocationForm(target.value)}
+            value={locationForm}
+          ></FormControl>
+          <InputGroup.Append>
+            <Button
+              variant="success"
+              type="submit"
+              disabled={locationForm.length === 0}
+            >
+              Dodaj
+            </Button>
+          </InputGroup.Append>
+        </InputGroup>
+      </Form>
       <div style={{ lineHeight: "3" }}>
         {locations.map((loc, index) => (
           <div className="border rounded my-2 p-1" key={index}>
