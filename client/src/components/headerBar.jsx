@@ -30,7 +30,7 @@ export default function HeaderBar() {
 
       <Nav className="ml-auto">
         {user.isAuthenticated ? (
-          <span>
+          <span className="text-center">
             <Nav.Link href="/profile">
               {user.firstName
                 ? user.firstName + " " + user.lastName
