@@ -63,12 +63,23 @@ export default function Checkout() {
           kn
         </h3>
       )}
+      <hr />
+      <h5>Adresa dostave:</h5>
       <Form onSubmit={submitOrder}>
-        <FormControl name="userLocation" as="select" custom>
+        <FormControl
+          name="userLocation"
+          as="select"
+          custom
+          disabled={userLocations.length === 0}
+        >
           {userLocations.map((userLocation, index) => (
             <option key={index}>{userLocation.name}</option>
           ))}
         </FormControl>
+        <p style={{ color: "red" }}>
+          {userLocations.length === 0 &&
+            "Potrebno je dodati barem jednu adresu na profilu. (U gornje desnom kutu)"}
+        </p>
 
         <FormCheck
           label="Plati gotovinom"
