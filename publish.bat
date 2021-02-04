@@ -1,0 +1,1 @@
+cd client & npm i & npm run-script build & rmdir /s /q ..\server\public & move build ../server/public & cd ../server & npm i
